@@ -62,6 +62,9 @@ spec:
                         name:
                           description: name is the metadata.name of the referenced secret
                           type: string
+                        namespace:
+                          description: namespace is the metadata.namespace of the referenced secret
+                          type: string
                     url:
                       description: Chart repository URL
                       type: string

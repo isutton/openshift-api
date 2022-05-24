@@ -74,7 +74,7 @@ type ConnectionConfig struct {
 	// If empty, the default system roots are used.
 	// The namespace for this config map is openshift-config.
 	// +optional
-	CA configv1.ConfigMapNameReference `json:"ca,omitempty"`
+	CA *configv1.ConfigMapNameReference `json:"ca,omitempty"`
 
 	// tlsClientConfig is an optional reference to a secret by name that contains the
 	// PEM-encoded TLS client certificate and private key to present when connecting to the server.
@@ -82,9 +82,21 @@ type ConnectionConfig struct {
 	// The key "tls.key" is used to locate the private key.
 	// The namespace for this secret is openshift-config.
 	// +optional
-	TLSClientConfig configv1.SecretNameReference `json:"tlsClientConfig,omitempty"`
+	TLSClientConfig *SecretNamespacedReference `json:"tlsClientConfig,omitempty"`
 }
 
+// SecretNamespacedReference references a secret in a specific namespace.
+// The namespace must be specified at the point of use.
+type SecretNamespacedReference struct {
+	// name is the metadata.name of the referenced secret
+	// +kubebuilder:validation:Required
+	// +required
+	Name string `json:"name"`
+	// namespace is the metadata.namespace of the referenced secret
+	// +kubebuilder:validation:Optional
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
+}
 type HelmChartRepositoryStatus struct {
 
 	// conditions is a list of conditions and their statuses
